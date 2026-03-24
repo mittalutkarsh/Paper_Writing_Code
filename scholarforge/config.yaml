@@ -1,0 +1,60 @@
+project:
+  name: "Two-Tower Recommendation Model for Customer Hierarchy Preferences"
+  topic: "Two-Tower Recommendation Model for Customer Division and Category Preference Prediction in Retail"
+  output_dir: "./output"
+
+llm:
+  provider: "anthropic"
+  model: "claude-haiku-4-5-20251001"
+  api_key_env: "ANTHROPIC_API_KEY"
+  base_url: "https://api.anthropic.com/v1"
+  temperature: 0.3
+  max_tokens: 4096
+
+literature:
+  max_papers: 30
+  search_sources:
+    - arxiv
+    - semantic_scholar
+  arxiv_categories:
+    - cs.AI
+    - cs.LG
+    - cs.IR
+    - cs.CV
+    - stat.ML
+  s2_api_key_env: "S2_API_KEY"
+  relevance_threshold: 0.7
+
+verification:
+  crossref_mailto: "user@example.com"
+  layers:
+    - arxiv_id
+    - crossref_doi
+    - datacite_doi
+    - s2_title_match
+  remove_unverified: true
+
+paper:
+  target_words: 5500
+  conference: "icml2026"
+  sections:
+    - Introduction
+    - Related Work
+    - Method
+    - Experiments
+    - Results
+    - Conclusion
+
+human_in_the_loop:
+  mode: "cli"
+  auto_approve: false
+  watch_interval_sec: 10
+  web_port: 8080
+  gate_stages:
+    - literature_review
+    - gap_analysis
+    - final_review
+
+logging:
+  level: "INFO"
+  file: "./output/scholarforge.log"

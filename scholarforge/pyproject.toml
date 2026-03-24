@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scholarforge"
+version = "0.1.0"
+description = "Autonomous academic research paper pipeline with verified citations"
+requires-python = ">=3.11"
+dependencies = [
+    # CLI
+    "typer>=0.12.0",
+    "rich>=13.0",
+    # Config
+    "pyyaml>=6.0",
+    "pydantic>=2.0",
+    # LLM
+    "openai>=1.30.0",
+    "httpx>=0.27.0",
+    # Literature search
+    "arxiv>=2.4.0",
+    "semanticscholar>=0.8.0",
+    "habanero>=2.3.0",
+    "requests>=2.31.0",
+    # Writing & charts
+    "matplotlib>=3.8.0",
+    "SciencePlots>=2.1.0",
+    "Jinja2>=3.1.0",
+    # File watching
+    "watchdog>=4.0.0",
+    # Web UI (optional)
+    "flask>=3.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-asyncio", "ruff"]
+
+[project.scripts]
+scholarforge = "scholarforge.cli:app"

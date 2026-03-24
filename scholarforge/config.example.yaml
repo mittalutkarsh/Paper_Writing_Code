@@ -1,0 +1,56 @@
+# ScholarForge Configuration
+project:
+  name: "My Research Paper"
+  topic: ""  # Set via CLI or here
+  output_dir: "./output"
+
+llm:
+  provider: "openai"  # openai | anthropic | deepseek | ollama | custom
+  model: "gpt-4o"
+  api_key_env: "OPENAI_API_KEY"  # Name of env var holding the key
+  base_url: null  # Override for custom endpoints (e.g., http://localhost:11434/v1 for Ollama)
+  temperature: 0.3
+  max_tokens: 4096
+
+literature:
+  max_papers: 30
+  search_sources:
+    - arxiv
+    - semantic_scholar
+  arxiv_categories: ["cs.AI", "cs.LG", "cs.CL", "cs.CV", "stat.ML"]
+  s2_api_key_env: "S2_API_KEY"  # Optional, for higher rate limits
+  relevance_threshold: 0.7
+
+verification:
+  crossref_mailto: "your-email@example.com"  # For polite pool access
+  layers:
+    - arxiv_id
+    - crossref_doi
+    - datacite_doi
+    - s2_title_match
+  remove_unverified: true
+
+paper:
+  target_words: 5500
+  conference: "icml2026"  # icml2026 | iclr2026
+  sections:
+    - Introduction
+    - Related Work
+    - Method
+    - Experiments
+    - Results
+    - Conclusion
+
+human_in_the_loop:
+  mode: "cli"  # cli | file_watch | web
+  auto_approve: false
+  watch_interval_sec: 10
+  web_port: 8080
+  gate_stages:
+    - literature_review
+    - gap_analysis
+    - final_review
+
+logging:
+  level: "INFO"
+  file: "./output/scholarforge.log"
