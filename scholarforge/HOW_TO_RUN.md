@@ -5,7 +5,30 @@ and it produces a conference-ready LaTeX paper with verified citations.
 
 ---
 
-## Prerequisites
+## Before you start — choose your approach
+
+**At the beginning of every new paper, decide which mode to use:**
+
+| | Option A: ScholarForge + API key | Option B: Claude Code (no API key) |
+|---|---|---|
+| **How it works** | Standalone Python pipeline calls Anthropic API directly | Claude Code (the CLI) does all the work step by step |
+| **API key needed** | Yes — separate Anthropic API key in `.env` | No — covered by your Claude Code subscription |
+| **Control** | Runs autonomously end-to-end | You stay in the loop at every step |
+| **Best for** | Running unattended, walk away | More control, iterating section by section |
+| **Cost** | ~$0.50–$2 per paper (Haiku model) | No extra cost |
+
+### If you choose Option B (Claude Code):
+Open Claude Code and say:
+> "I want to write a paper about [topic]. My README is at [path] and my code is at [path]. Let's start from the beginning."
+
+Claude Code will do the literature search, write each section, generate LaTeX, and ask you for real results before writing the Experiments section — no API key, no `.env` file needed.
+
+### If you choose Option A (ScholarForge + API key):
+Continue with the steps below.
+
+---
+
+## Prerequisites (Option A only)
 
 - Python 3.11+
 - An [Anthropic API key](https://console.anthropic.com) (Claude Haiku is used by default — cheap)
@@ -38,6 +61,8 @@ echo "ANTHROPIC_API_KEY=sk-ant-your-key-here" > .env
 ```
 
 > **Security:** `.env` is in `.gitignore` and will never be pushed to GitHub.
+> Disable or delete your key at [console.anthropic.com](https://console.anthropic.com)
+> when not in use to avoid unexpected charges.
 
 To load the key into your shell session before running any command:
 ```bash
@@ -94,6 +119,8 @@ set -a && source .env && set +a
 The pipeline pauses at 3 checkpoints. Each time, run the **resume command**:
 
 ```bash
+set -a && source .env && set +a
+
 /Users/<your-username>/Library/Python/3.11/bin/scholarforge resume \
   --run-id sf-XXXXXXXX-XXXXXX \
   --readme /path/to/your/project/README.md \
@@ -104,7 +131,7 @@ The pipeline pauses at 3 checkpoints. Each time, run the **resume command**:
 
 The pipeline found papers and verified their citations. Check what was found:
 ```bash
-cat output/stage-2/result.json   # papers discovered
+cat output/stage-2/result.json           # papers discovered
 cat output/stage-4/verification_report.json  # which citations are verified
 ```
 If the papers look relevant, just resume. If not, you can adjust `config.yaml`
@@ -125,7 +152,7 @@ nano output/stage-5/READMEMISSING.md
 The file contains questions about:
 - Dataset scale (customers, items, training rows)
 - Brands and markets in scope
-- **Your real model metrics** (NDCG@5, MRR from evaluation)
+- **Your real model metrics** (e.g. NDCG@5, MRR from your evaluation script)
 - Baseline comparisons
 - Ablation study results
 - Training convergence (epochs, final loss)
@@ -188,7 +215,7 @@ output/
 │   └── verification_report.json
 ├── stage-5/
 │   ├── result.json         ← Gap analysis
-│   └── READMEMISSING.md    ← ← Fill this in with your real results
+│   └── READMEMISSING.md    ← Fill this in with your real results
 ├── stage-6/
 │   ├── result.json         ← Paper draft (structured)
 │   └── paper_draft.md      ← Full paper in Markdown
