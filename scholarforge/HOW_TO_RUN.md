@@ -9,22 +9,21 @@ and it produces a conference-ready LaTeX paper with verified citations.
 
 **At the beginning of every new paper, decide which mode to use:**
 
-| | Option A: ScholarForge + API key | Option B: Claude Code (no API key) |
-|---|---|---|
-| **How it works** | Standalone Python pipeline calls Anthropic API directly | Claude Code (the CLI) does all the work step by step |
-| **API key needed** | Yes — separate Anthropic API key in `.env` | No — covered by your Claude Code subscription |
-| **Control** | Runs autonomously end-to-end | You stay in the loop at every step |
-| **Best for** | Running unattended, walk away | More control, iterating section by section |
-| **Cost** | ~$0.50–$2 per paper (Haiku model) | No extra cost |
+| | Option A: ScholarForge only | Option B: Claude Code + ScholarForge | Option C: Claude Code only |
+|---|---|---|---|
+| **How it works** | Run from terminal — ScholarForge calls the Anthropic API directly | Claude Code sets up, debugs, and runs ScholarForge — ScholarForge still uses its own API key for LLM calls | Claude Code does everything — no ScholarForge involved |
+| **API key needed** | Yes | Yes | No — covered by your Claude Code subscription |
+| **Best for** | Fully automated, no help needed | Need help with setup, bugs, or want guidance | Maximum control, no key management, iterating section by section |
+| **Cost** | ~$0.50–$2 per paper (Haiku model) | ~$0.50–$2 per paper (Haiku model) | No extra cost |
 
-### If you choose Option B (Claude Code):
+### If you choose Option C (Claude Code only, no API key):
 Open Claude Code and say:
 > "I want to write a paper about [topic]. My README is at [path] and my code is at [path]. Let's start from the beginning."
 
 Claude Code will do the literature search, write each section, generate LaTeX, and ask you for real results before writing the Experiments section — no API key, no `.env` file needed.
 
-### If you choose Option A (ScholarForge + API key):
-Continue with the steps below.
+### If you choose Option A or B (ScholarForge):
+Continue with the steps below. For Option B, open Claude Code alongside your terminal so it can help debug issues as they arise.
 
 ---
 
